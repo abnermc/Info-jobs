@@ -1,0 +1,67 @@
+tabler icons - Iconos
+stich de google - Diseño web
+https://unavatar.io/#/ - Obtener avatares de diferentes paginas 
+chevron icons Iconos de paginacion
+control + k + c - Comentar varias lineas
+
+
+
+lista de trabajos antes del json:
+<article data-lugar="remoto" class="job-listing-card">
+          <div class="job-info">
+            <h3>Desarrollador Frontend React</h3>
+            <p class="job-meta">Google Inc. • Remoto • Senior</p>
+            <p class="job-description">
+              Buscamos un desarrollador frontend con experiencia en React y TypeScript para unirse a nuestro equipo de producto.
+              Trabajarás en proyectos innovadores con impacto global.
+            </p>
+          </div>
+          <button type="button" class="button button-apply-job">Aplicar</button>
+        </article>
+
+        <article data-lugar="cdmx" class="job-listing-card">
+          <div class="job-info">
+            <h3>Desarrollador Full Stack</h3>
+            <p class="job-meta">Netflix • Ciudad de México • Mid-level</p>
+            <p class="job-description">
+              Únete a Netflix como desarrollador full stack. Experiencia con Node.js, React y bases de datos SQL/NoSQL.
+              Ambiente colaborativo y grandes beneficios.
+            </p>
+          </div>
+          <button type="button" class="button button-apply-job">Aplicar</button>
+        </article>
+
+        <article data-lugar="remoto"  class="job-listing-card">
+          <div class="job-info">
+            <h3>Ingeniero de Software Backend</h3>
+            <p class="job-meta">Vercel • Remoto • Senior</p>
+            <p class="job-description">
+              Construye la infraestructura del futuro de la web. Buscamos ingenieros con experiencia en sistemas distribuidos,
+              Go o Rust, y pasión por la performance.
+            </p>
+          </div>
+          <button type="button" class="button button-apply-job">Aplicar</button>
+        </article>
+
+        <article data-lugar="guadalajara"  class="job-listing-card">
+          <div class="job-info">
+            <h3>Desarrollador Mobile (iOS/Android)</h3>
+            <p class="job-meta">Mobile Apps Ltd. • Guadalajara • Junior</p>
+            <p class="job-description">
+              Oportunidad para desarrolladores junior apasionados por el desarrollo móvil. Trabajarás con Swift, Kotlin
+              y React Native en aplicaciones usadas por millones.
+            </p>
+          </div>
+          <button type="button" class="button button-apply-job">Aplicar</button>
+        </article>
+
+        <article data-lugar="monterrey"  class="job-listing-card">
+          <div class="job-info">
+            <h3>Data Engineer</h3>
+            <p class="job-meta">Tech Analytics • Monterrey • Mid-level</p>
+            <p class="job-description">
+              Construye pipelines de datos escalables con Python, Spark y herramientas de cloud. Experiencia con AWS o GCP requerida.
+            </p>
+          </div>
+          <button type="button" class="button button-apply-job">Aplicar</button>
+        </article>
