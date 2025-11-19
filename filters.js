@@ -12,9 +12,14 @@ function applyFilters(){
     jobs.forEach(job=>{
         const modalidad = job.getAttribute('data-modalidad');
         const experience = job.getAttribute('data-nivel');
-        const isShown = locationValue === '' || locationValue === modalidad;
+
+        const matchExp = expValue === '' || expValue === experience;
+        const matchLocation = locationValue === '' || locationValue === modalidad;
+
+        const isShown = matchExp && matchLocation;
         job.classList.toggle('is-hidden', !isShown);
     })
+    
 }
 
 filterLocation.addEventListener('change', applyFilters);
