@@ -1,3 +1,5 @@
+import jobsData from '../data.json'
+import { JobCard } from './JobCard.jsx' 
 export function JobsListings(){
     return(
         <>
@@ -5,7 +7,9 @@ export function JobsListings(){
 
         <div className="jobs-listings">
             {/*Aquí se insertan los empleos dinámicamente */}
-        
+            {jobsData.map(job => (
+                <JobCard job={job} />
+            ))}
         </div>
         </>
     )
