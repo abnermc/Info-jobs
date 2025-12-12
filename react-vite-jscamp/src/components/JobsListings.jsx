@@ -8,7 +8,7 @@ export function JobsListings(){
         <div className="jobs-listings">
             {/*Aquí se insertan los empleos dinámicamente */}
             {jobsData.map(job => (
-                <JobCard job={job} />
+                <JobCard key={job.id} job={job} />
             ))}
         </div>
         </>
