@@ -18,12 +18,15 @@ function App() {
     location: '',
     experienceLevel: ''
   })
+  console.log("Filters state:", filters);
   const [textFilter, setTextFilter] = useState('')  
   const [currentPage, setCurrentPage] = useState(1)
 
   const jobsFilteredByFilters = jobsData.filter(job =>{
     return (
-      (filters.technology === '' || job.data.technology === filters.technology.toLowerCase()) 
+      (filters.technology === '' || job.data.technology.toLowerCase() === filters.technology.toLowerCase()) &&
+      (filters.location === '' || job.data.modalidad.toLowerCase() === filters.location.toLowerCase()) &&
+      (filters.experienceLevel === '' || job.data.nivel.toLowerCase() === filters.experienceLevel.toLowerCase())
     )
   })
 
