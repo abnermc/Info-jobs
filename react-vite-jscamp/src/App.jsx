@@ -1,69 +1,38 @@
 import { Header } from './components/Header.jsx' //La extensión es opcional
 import { Footer } from './components/Footer.jsx'  
-import { SearchFormSection } from './components/SearchFormSection.jsx'
-import { JobsListings } from './components/JobsListings.jsx'
-import { JobCard } from './components/JobCard.jsx'
-import { Pagination } from './components/Pagination.jsx'
-import jobsData from './data.json'
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { HomePage } from './pages/Home.jsx'
+import { SearchPage } from './pages/Search.jsx'
+import {NotFoundPage} from './pages/404.jsx'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 const RESULTS_PER_PAGE = 5
 
 function App() {
-  const [filters, setFilters] = useState({
-    technology: '',
-    location: '',
-    experienceLevel: ''
-  })
-  console.log("Filters state:", filters);
-  const [textFilter, setTextFilter] = useState('')  
-  const [currentPage, setCurrentPage] = useState(1)
+  const[currentPath, setCurrentPath] = useState(window.location.pathname)
 
-  const jobsFilteredByFilters = jobsData.filter(job =>{
-    return (
-      (filters.technology === '' || job.data.technology.toLowerCase() === filters.technology.toLowerCase()) &&
-      (filters.location === '' || job.data.modalidad.toLowerCase() === filters.location.toLowerCase()) &&
-      (filters.experienceLevel === '' || job.data.nivel.toLowerCase() === filters.experienceLevel.toLowerCase())
-    )
-  })
-
-  const jobsWithTextFilter = textFilter === '' ? jobsFilteredByFilters : jobsFilteredByFilters.filter(job =>{
-    return job.titulo.toLowerCase().includes(textFilter.toLowerCase())
-  })
-
-  const totalPages = Math.ceil(jobsWithTextFilter.length / RESULTS_PER_PAGE)
-
-  const pagedResults = jobsWithTextFilter.slice(
-    (currentPage - 1) * RESULTS_PER_PAGE,
-    currentPage * RESULTS_PER_PAGE
-  )
-
-  const handlePagesChange = (page) => {
-    console.log("Página cambiada a:", page);
-    setCurrentPage(page)
+  let page = <NotFoundPage/>
+  if(currentPath === '/'){
+    page = <HomePage/>
+  } else if(currentPath === '/search'){
+    page = <SearchPage/>
   }
 
-  const handleSearch = (filters) =>{
-    setFilters(filters)
-    setCurrentPage(1)
-  }  
-  const handleTextFilter = (newTextoToFilter)=>{
-    setTextFilter(newTextoToFilter)
-    setCurrentPage(1)
-  }
+  useEffect(()=>{
+    const handleLocationChange = () =>{
+      setCurrentPath(window.location.pathname)
+    }
+    window.addEventListener('popstate', handleLocationChange)
+
+    return () =>{
+      window.removeEventListener('popstate', handleLocationChange)
+    }
+  }, [])
+
   return (  
     <>
       <Header/>
-      <main>
-        <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter}/>
-        <section>
-          <JobsListings jobs={pagedResults}/>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePagesChange} />
-        </section>
-      </main>
+      {page}
       <Footer/>
     </>
   )
