@@ -1,16 +1,12 @@
+import { useState } from "react";
 import { useId } from "react";
-export function SearchFormSection({onTextFilter, onSearch}){
-    const idText = useId()
-    const idTechnology = useId()
-    const idLocation = useId()
-    const idExperienceLevel = useId()
-
+const useSearchForm = ({idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter})=>{
+    const [searchText, setSearchText] = useState('')
     const handleSubmit = (event) =>{
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
         const filters = {
-            search: formData.get(idText),
             technology: formData.get(idTechnology),
             location: formData.get(idLocation),
             experienceLevel: formData.get(idExperienceLevel)
@@ -21,8 +17,25 @@ export function SearchFormSection({onTextFilter, onSearch}){
 
     const handleTextChange = (event) =>{
         const text = event.target.value
+        setSearchText(text)
         onTextFilter(text)
     }
+    return{
+        searchText,
+        handleSubmit,
+        handleTextChange
+    }
+}
+export function SearchFormSection({onTextFilter, onSearch}){
+    const idText = useId()
+    const idTechnology = useId()
+    const idLocation = useId()
+    const idExperienceLevel = useId()
+
+    const{
+        handleSubmit,
+        handleTextChange
+    } = useSearchForm({idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter})
 
     return(
         <section className="jobs-search">
