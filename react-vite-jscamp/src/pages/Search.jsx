@@ -31,7 +31,7 @@ const useFilters = () => {
         if(filters.location) params.append('type', filters.location)
         if(filters.experienceLevel) params.append('level', filters.experienceLevel)
 
-        const queryParams = params.toString
+        const queryParams = params.toString() 
 
         const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${queryParams}`)
         const json = await response.json()
