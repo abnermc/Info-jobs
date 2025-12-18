@@ -25,11 +25,17 @@ const useFilters = () => {
       try{
         setLoading(true)
 
+        //Construcción de query params, sirven para enviar datos en la URL
         const params = new URLSearchParams()
         if(textFilter) params.append('text', textFilter)
         if(filters.technology) params.append('technology', filters.technology)
         if(filters.location) params.append('type', filters.location)
         if(filters.experienceLevel) params.append('level', filters.experienceLevel)
+        
+        //Lógica de paginación
+        const offset = (currentPage - 1) * RESULTS_PER_PAGE
+        params.append('limit', RESULTS_PER_PAGE)
+        params.append('offset', offset)
 
         const queryParams = params.toString() 
 
@@ -67,7 +73,7 @@ const useFilters = () => {
     currentPage * RESULTS_PER_PAGE
   )
   */
-  const totalPages = Math.ceil(jobs.length / RESULTS_PER_PAGE)
+  const totalPages = Math.ceil(total / RESULTS_PER_PAGE)
 
   const handlePagesChange = (page) => {
     console.log("Página cambiada a:", page);
