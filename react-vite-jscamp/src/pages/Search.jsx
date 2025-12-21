@@ -74,6 +74,12 @@ const useFilters = () => {
   )
   */
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE)
+  
+  const hasActiveFilters = 
+    filters.technology !== '' ||
+    filters.location !== '' ||
+    filters.experienceLevel !== '' ||
+    textFilter !== ''
 
   const handlePagesChange = (page) => {
     console.log("Página cambiada a:", page);
@@ -88,15 +94,25 @@ const useFilters = () => {
     setTextFilter(newTextoToFilter)
     setCurrentPage(1)
   }
+  const handleClearFilters = () =>{
+    setFilters({
+      technology: '',
+      location: '',
+      experienceLevel: ''
+    })
+    setCurrentPage(1)
+  }
   return{
     total,
     loading,
     jobs,
     totalPages,
     currentPage,
+    hasActiveFilters,
     handlePagesChange,
     handleSearch,
-    handleTextFilter
+    handleTextFilter,
+    handleClearFilters
   }
 }
 
@@ -107,9 +123,11 @@ export function SearchPage() {
     jobs,
     totalPages,
     currentPage,
+    hasActiveFilters,
     handlePagesChange,
     handleSearch,
-    handleTextFilter
+    handleTextFilter,
+    handleClearFilters  
   } = useFilters()
 
   useEffect(() =>{
@@ -119,7 +137,7 @@ export function SearchPage() {
   return (  
     <>
       <main>
-        <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter}/>
+        <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
         <section>
           {
             loading ? <p>Cargando ofertas de empleo...</p> : <JobsListings jobs={jobs}/>
