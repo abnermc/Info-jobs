@@ -281,6 +281,7 @@ main > section:nth-child(2) h2 {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 main > section:nth-child(2) > div > div:first-child > p {
@@ -479,4 +480,23 @@ article {
     outline: 2px solid white;
     outline-offset: 2px;
   }
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px dotted #FFF;
+  border-radius: 50%;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 2s linear infinite;
 }

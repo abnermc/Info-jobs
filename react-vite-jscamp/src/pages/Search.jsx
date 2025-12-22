@@ -1,6 +1,7 @@
 import { SearchFormSection } from '../components/SearchFormSection.jsx'
 import { JobsListings } from '../components/JobsListings.jsx'
 import { Pagination } from '../components/Pagination.jsx'
+import { Spinner } from '../components/Spinner.jsx'
 //import jobsData from '../data.json'
 import { useEffect, useState } from 'react'
 
@@ -140,7 +141,7 @@ export function SearchPage() {
         <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
         <section>
           {
-            loading ? <p>Cargando ofertas de empleo...</p> : <JobsListings jobs={jobs}/>
+           loading ? <Spinner/> : <JobsListings jobs={jobs}/>
           }
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePagesChange} />
         </section>
@@ -148,4 +149,3 @@ export function SearchPage() {
     </>
   )
 }
-
