@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { useId } from "react";
-const useSearchForm = ({idTechnology, idLocation, idExperienceLevel,hasActiveFilters, onSearch, onTextFilter, onClearFilters})=>{
+const useSearchForm = ({
+    idTechnology, 
+    idLocation, 
+    idExperienceLevel,
+    hasActiveFilters, 
+    initialFilters,
+    onSearch, 
+    onTextFilter, 
+    onClearFilters
+    })=>{
+
     const [searchText, setSearchText] = useState('')
+
     const handleSubmit = (event) =>{
         event.preventDefault();
 
@@ -22,17 +33,26 @@ const useSearchForm = ({idTechnology, idLocation, idExperienceLevel,hasActiveFil
     }
 
     const handleClearFilters = () =>{
+        setSearchText('')
         onClearFilters()
+    }
+    const handleSelectChange = (event) =>{
+        const {name, value} = event.target
+        onSearch({
+            ...initialFilters,
+            [name]: value
+        })
     }
     return{
         searchText,
         hasActiveFilters,
         handleSubmit,
         handleTextChange,
-        handleClearFilters
+        handleClearFilters,
+        handleSelectChange
     }
 }
-export function SearchFormSection({hasActiveFilters, onTextFilter, onSearch, onClearFilters}){
+export function SearchFormSection({hasActiveFilters, initialFilters, onTextFilter, onSearch, onClearFilters}){
     const idText = useId()
     const idTechnology = useId()
     const idLocation = useId()
@@ -41,8 +61,9 @@ export function SearchFormSection({hasActiveFilters, onTextFilter, onSearch, onC
     const{
         handleSubmit,
         handleTextChange,
-        handleClearFilters
-    } = useSearchForm({idTechnology, idLocation, idExperienceLevel,hasActiveFilters, onSearch, onTextFilter,onClearFilters})
+        handleClearFilters,
+        handleSelectChange
+    } = useSearchForm({idTechnology, idLocation, idExperienceLevel,hasActiveFilters, initialFilters, onSearch, onTextFilter,onClearFilters})
 
     return(
         <section className="jobs-search">
@@ -66,7 +87,7 @@ export function SearchFormSection({hasActiveFilters, onTextFilter, onSearch, onC
             </div>
 
             <div className="search-filters">
-            <select name={idTechnology} id="filter-technology">
+            <select name={idTechnology} value={initialFilters.technology} id="filter-technology" onChange={handleSelectChange}>
                 <option value="">Tecnología</option>
                 <optgroup label="Tecnologías populares">
                 <option value="javascript">JavaScript</option>
@@ -84,7 +105,7 @@ export function SearchFormSection({hasActiveFilters, onTextFilter, onSearch, onC
                 <option value="php">PHP</option>
             </select>
 
-            <select name={idLocation} id="filter-location">
+            <select name={idLocation} value={initialFilters.location} id="filter-location" onChange={handleSelectChange}>
                 <option value="">Ubicación</option>
                 <option value="remoto">Remoto</option>
                 <option value="cdmx">Ciudad de México</option>
@@ -93,7 +114,7 @@ export function SearchFormSection({hasActiveFilters, onTextFilter, onSearch, onC
                 <option value="barcelona">Barcelona</option>
             </select>
 
-            <select name={idExperienceLevel} id="filter-experience-level">
+            <select name={idExperienceLevel} value={initialFilters.experienceLevel} id="filter-experience-level" onChange={handleSelectChange}>
                 <option value="">Nivel de experiencia</option>
                 <option value="junior">Junior</option>
                 <option value="mid">Mid-level</option>

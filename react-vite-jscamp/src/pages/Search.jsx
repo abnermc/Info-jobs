@@ -8,10 +8,15 @@ import { useEffect, useState } from 'react'
 const RESULTS_PER_PAGE = 5
 
 const useFilters = () => {
-  const [filters, setFilters] = useState({
-    technology: '',
-    location: '',
-    experienceLevel: ''
+  const [filters, setFilters] = useState(() =>{
+    const savedFilters = localStorage.getItem('jobFilters')
+    console.log("Saved filters from localStorage:", savedFilters);
+    if (savedFilters) return JSON.parse(savedFilters)
+    return{
+      technology: '',
+      location: '',
+      experienceLevel: ''
+    }
   })
   console.log("Filters state:", filters);
   const [textFilter, setTextFilter] = useState('')  
@@ -54,6 +59,14 @@ const useFilters = () => {
     }
     fetchJobs()
   },[filters, textFilter, currentPage])
+
+  useEffect(() =>{
+    try{
+      localStorage.setItem('jobFilters',JSON.stringify(filters))
+    }catch(error){
+      console.error("Error saving filters to localStorage:", error);
+    }
+  },[filters])
   /* Ya no usaremos estos filtros ya que consumiremos de una API
   const jobsFilteredByFilters = jobsData.filter(job =>{
     return (
@@ -101,6 +114,7 @@ const useFilters = () => {
       location: '',
       experienceLevel: ''
     })
+    localStorage.removeItem('jobFilters')
     setCurrentPage(1)
   }
   return{
@@ -109,6 +123,7 @@ const useFilters = () => {
     jobs,
     totalPages,
     currentPage,
+    filters,
     hasActiveFilters,
     handlePagesChange,
     handleSearch,
@@ -124,6 +139,7 @@ export function SearchPage() {
     jobs,
     totalPages,
     currentPage,
+    filters,
     hasActiveFilters,
     handlePagesChange,
     handleSearch,
@@ -138,7 +154,7 @@ export function SearchPage() {
   return (  
     <>
       <main>
-        <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
+        <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} initialFilters={filters} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
         <section>
           {
            loading ? <Spinner/> : <JobsListings jobs={jobs}/>
