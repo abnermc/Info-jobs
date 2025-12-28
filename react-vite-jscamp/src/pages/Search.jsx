@@ -147,13 +147,12 @@ export function SearchPage() {
     handleClearFilters  
   } = useFilters()
 
-  useEffect(() =>{
-    document.title = `Resultados totales: ${total} - Página ${currentPage}`
-  },[jobs, currentPage])
-
+  const title = loading ? 'Cargando... Info-jobs':`Resultados totales: ${total}`  
   return (  
     <>
       <main>
+        <title>{title}</title>
+        <meta name="description" content="Listado con empleos y filtros para encontrar el trabajo de tus sueños."></meta>
         <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} initialFilters={filters} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
         <section>
           {
