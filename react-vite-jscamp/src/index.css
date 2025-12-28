@@ -489,6 +489,11 @@ article {
     transform: rotate(360deg);
   }
 }
+.search-bar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .spinner {
   width: 48px;

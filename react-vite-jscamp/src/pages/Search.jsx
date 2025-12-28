@@ -92,8 +92,7 @@ const useFilters = () => {
   const hasActiveFilters = 
     filters.technology !== '' ||
     filters.location !== '' ||
-    filters.experienceLevel !== '' ||
-    textFilter !== ''
+    filters.experienceLevel !== ''
 
   const handlePagesChange = (page) => {
     console.log("Página cambiada a:", page);

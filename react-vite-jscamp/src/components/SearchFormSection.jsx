@@ -1,22 +1,28 @@
-import { useState } from "react";
-import { useId } from "react";
+import { useId, useState, useRef } from "react";
 const useSearchForm = ({
     idTechnology, 
     idLocation, 
     idExperienceLevel,
+    idText,
     hasActiveFilters, 
     initialFilters,
     onSearch, 
     onTextFilter, 
     onClearFilters
     })=>{
-
+    
+    const timeOutId = useRef(null)
     const [searchText, setSearchText] = useState('')
 
     const handleSubmit = (event) =>{
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
+
+        if(event.target.name === idText){
+            return
+        }
+
         const filters = {
             technology: formData.get(idTechnology),
             location: formData.get(idLocation),
@@ -29,7 +35,13 @@ const useSearchForm = ({
     const handleTextChange = (event) =>{
         const text = event.target.value
         setSearchText(text)
-        onTextFilter(text)
+        // Debounce: cancelar timeout anterior (Usando el hook useRef)
+        if(timeOutId.current) {
+            clearTimeout(timeOutId.current)
+        }
+        timeOutId.current = setTimeout(() =>{
+            onTextFilter(text)
+        }, 500)
     }
 
     const handleClearFilters = () =>{
@@ -57,13 +69,20 @@ export function SearchFormSection({hasActiveFilters, initialFilters, onTextFilte
     const idTechnology = useId()
     const idLocation = useId()
     const idExperienceLevel = useId()
-
+    const inputRef = useRef()
+    
     const{
         handleSubmit,
         handleTextChange,
         handleClearFilters,
         handleSelectChange
-    } = useSearchForm({idTechnology, idLocation, idExperienceLevel,hasActiveFilters, initialFilters, onSearch, onTextFilter,onClearFilters})
+    } = useSearchForm({idTechnology, idLocation, idExperienceLevel, idText, hasActiveFilters, initialFilters, onSearch, onTextFilter,onClearFilters})
+
+    const handleClearInput = (event) =>{
+        event.preventDefault()
+        inputRef.current.value = ""
+        onTextFilter('')
+    }
 
     return(
         <section className="jobs-search">
@@ -80,10 +99,17 @@ export function SearchFormSection({hasActiveFilters, initialFilters, onTextFilte
                     <path d="M21 21l-6 -6" />
                 </svg>
 
-                <input name={idText} id="empleos-search-input" type="text" 
+                <input 
+                    ref={inputRef} 
+                    name={idText} 
+                    id="empleos-search-input" 
+                    type="text" 
                     placeholder="Buscar trabajos, empresas o habilidades"
                     onChange={handleTextChange}>
                 </input>
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="currentColor" className="icon icon-tabler icons-tabler-filled icon-tabler-copy-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18.333 6a3.667 3.667 0 0 1 3.667 3.667v8.666a3.667 3.667 0 0 1 -3.667 3.667h-8.666a3.667 3.667 0 0 1 -3.667 -3.667v-8.666a3.667 3.667 0 0 1 3.667 -3.667zm-3.333 -4c1.094 0 1.828 .533 2.374 1.514a1 1 0 1 1 -1.748 .972c-.221 -.398 -.342 -.486 -.626 -.486h-10c-.548 0 -1 .452 -1 1v9.998c0 .32 .154 .618 .407 .805l.1 .065a1 1 0 1 1 -.99 1.738a3 3 0 0 1 -1.517 -2.606v-10c0 -1.652 1.348 -3 3 -3zm.8 8.786l-1.837 1.799l-1.749 -1.785a1 1 0 0 0 -1.319 -.096l-.095 .082a1 1 0 0 0 -.014 1.414l1.749 1.785l-1.835 1.8a1 1 0 0 0 -.096 1.32l.082 .095a1 1 0 0 0 1.414 .014l1.836 -1.8l1.75 1.786a1 1 0 0 0 1.319 .096l.095 -.082a1 1 0 0 0 .014 -1.414l-1.75 -1.786l1.836 -1.8a1 1 0 0 0 .096 -1.319l-.082 -.095a1 1 0 0 0 -1.414 -.014" /></svg>
+                </button>
             </div>
 
             <div className="search-filters">
