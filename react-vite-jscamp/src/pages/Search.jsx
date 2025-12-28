@@ -155,6 +155,7 @@ export function SearchPage() {
         <meta name="description" content="Listado con empleos y filtros para encontrar el trabajo de tus sueños."></meta>
         <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} initialFilters={filters} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
         <section>
+          <h2 style={{textAlign: 'center'}}>Resultados de búsqueda</h2>
           {
            loading ? <Spinner/> : <JobsListings jobs={jobs}/>
           }

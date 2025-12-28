@@ -2,8 +2,6 @@ import { JobCard } from './JobCard.jsx'
 export function JobsListings({jobs}){
     return(
         <>
-        <h2>Resultados de búsqueda</h2>
-
         <div className="jobs-listings">
             {/*Aquí se insertan los empleos dinámicamente */}
             {
