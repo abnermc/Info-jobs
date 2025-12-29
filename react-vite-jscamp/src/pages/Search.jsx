@@ -18,7 +18,7 @@ const useFilters = () => {
       experienceLevel: ''
     }
   })
-  console.log("Filters state:", filters);
+  //console.log("Filters state:", filters);
   const [textFilter, setTextFilter] = useState('')  
   const [currentPage, setCurrentPage] = useState(1)
 
