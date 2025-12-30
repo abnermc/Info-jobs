@@ -2,6 +2,7 @@ import { SearchFormSection } from '../components/SearchFormSection.jsx'
 import { JobsListings } from '../components/JobsListings.jsx'
 import { Pagination } from '../components/Pagination.jsx'
 import { Spinner } from '../components/Spinner.jsx'
+import { useRouter } from '../hooks/useRouter.jsx'
 //import jobsData from '../data.json'
 import { useEffect, useState } from 'react'
 
@@ -18,13 +19,22 @@ const useFilters = () => {
       experienceLevel: ''
     }
   })
-  //console.log("Filters state:", filters);
-  const [textFilter, setTextFilter] = useState('')  
-  const [currentPage, setCurrentPage] = useState(1)
+  // Estados para el filtro de texto y la paginación
+  // Funcionan leyendo los query params de la URL y estableciendolos como estado inicial, luego se actualizan cuando el usuario interactua
+  const [textFilter, setTextFilter] = useState(() =>{
+    const params = new URLSearchParams(window.location.search)
+    return params.get('text') || ''
+  })  
+  const [currentPage, setCurrentPage] = useState(() =>{
+    const params = new URLSearchParams(window.location.search)
+    const page = Number(params.get('page'))
+    return Number.isNaN(page) ? page : 1
+  })
 
   const [jobs, setJobs] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)  
+  const {navigateTo} = useRouter()
 
   useEffect(() =>{
     async function fetchJobs(){
@@ -59,6 +69,24 @@ const useFilters = () => {
     }
     fetchJobs()
   },[filters, textFilter, currentPage])
+
+  // Efecto para actualizar la URL del navegador cuando cambian los filtros, texto o página
+  useEffect(()=>{
+    const params = new URLSearchParams()
+    if(textFilter) params.append('text', textFilter)
+    if(filters.technology) params.append('technology', filters.technology)
+    if(filters.location) params.append('type', filters.location)
+    if(filters.experienceLevel) params.append('level', filters.experienceLevel)
+
+    if(currentPage > 1) params.append('page', currentPage)
+
+    // funcion para construir la URL de la página
+    const newUrl = params.toString() 
+     ? `${window.location.pathname}?${params.toString()}`
+     : window.location.pathname
+
+    navigateTo(newUrl)
+  },[filters, textFilter,currentPage, navigateTo])
 
   useEffect(() =>{
     try{
@@ -123,6 +151,7 @@ const useFilters = () => {
     totalPages,
     currentPage,
     filters,
+    textFilter,
     hasActiveFilters,
     handlePagesChange,
     handleSearch,
@@ -139,6 +168,7 @@ export function SearchPage() {
     totalPages,
     currentPage,
     filters,
+    textFilter,
     hasActiveFilters,
     handlePagesChange,
     handleSearch,
@@ -152,7 +182,13 @@ export function SearchPage() {
       <main>
         <title>{title}</title>
         <meta name="description" content="Listado con empleos y filtros para encontrar el trabajo de tus sueños."></meta>
-        <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} initialFilters={filters} hasActiveFilters={hasActiveFilters} onClearFilters={handleClearFilters}/>
+        <SearchFormSection 
+          initialText={textFilter} 
+          onSearch={handleSearch} 
+          onTextFilter={handleTextFilter} 
+          initialFilters={filters} 
+          hasActiveFilters={hasActiveFilters} 
+          onClearFilters={handleClearFilters}/>
         <section>
           <h2 style={{textAlign: 'center'}}>Resultados de búsqueda</h2>
           {
