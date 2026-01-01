@@ -74,7 +74,7 @@ export function JobDetail(){
             <div className={styles.container}>
                 <nav className={styles.breadcrumb}>
                     <Link
-                        href="/"
+                        href="/Search"
                         className={styles.breadcrumbButton}
                     >       
                     Empleos         

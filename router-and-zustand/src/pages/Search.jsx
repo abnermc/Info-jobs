@@ -3,31 +3,28 @@ import { JobsListings } from '../components/JobsListings.jsx'
 import { Pagination } from '../components/Pagination.jsx'
 import { Spinner } from '../components/Spinner.jsx'
 import { useRouter } from '../hooks/useRouter.jsx'
+import { useSearchParams } from 'react-router'
 //import jobsData from '../data.json'
 import { useEffect, useState } from 'react'
 
 const RESULTS_PER_PAGE = 5
 
 const useFilters = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const [filters, setFilters] = useState(() =>{
-    const savedFilters = localStorage.getItem('jobFilters')
-    console.log("Saved filters from localStorage:", savedFilters);
-    if (savedFilters) return JSON.parse(savedFilters)
-    return{
-      technology: '',
-      location: '',
-      experienceLevel: ''
+    return {
+      technology: searchParams.get('technology') || '',
+      location: searchParams.get('type') || '',
+      experienceLevel: searchParams.get('level') || ''
     }
   })
   // Estados para el filtro de texto y la paginación
   // Funcionan leyendo los query params de la URL y estableciendolos como estado inicial, luego se actualizan cuando el usuario interactua
-  const [textFilter, setTextFilter] = useState(() =>{
-    const params = new URLSearchParams(window.location.search)
-    return params.get('text') || ''
-  })  
+  const [textFilter, setTextFilter] = useState(() => searchParams.get('text') || '')  
   const [currentPage, setCurrentPage] = useState(() =>{
-    const params = new URLSearchParams(window.location.search)
-    const page = Number(params.get('page'))
+    //const params = new URLSearchParams(window.location.search)
+    const page = Number(searchParams.get('page'))
     return Number.isNaN(page) ? page : 1
   })
 
@@ -72,21 +69,18 @@ const useFilters = () => {
 
   // Efecto para actualizar la URL del navegador cuando cambian los filtros, texto o página
   useEffect(()=>{
-    const params = new URLSearchParams()
-    if(textFilter) params.append('text', textFilter)
-    if(filters.technology) params.append('technology', filters.technology)
-    if(filters.location) params.append('type', filters.location)
-    if(filters.experienceLevel) params.append('level', filters.experienceLevel)
+    setSearchParams((params)=>{
+      const params = new URLSearchParams()
+      if(textFilter) params.append('text', textFilter)
+      if(filters.technology) params.append('technology', filters.technology)
+      if(filters.location) params.append('type', filters.location)
+      if(filters.experienceLevel) params.append('level', filters.experienceLevel)
 
-    if(currentPage > 1) params.append('page', currentPage)
+      if(currentPage > 1) params.append('page', currentPage)
 
-    // funcion para construir la URL de la página
-    const newUrl = params.toString() 
-     ? `${window.location.pathname}?${params.toString()}`
-     : window.location.pathname
-
-    navigateTo(newUrl)
-  },[filters, textFilter,currentPage, navigateTo])
+      return params
+    })
+  },[filters, textFilter,currentPage, setSearchParams])
 
   useEffect(() =>{
     try{
@@ -95,26 +89,7 @@ const useFilters = () => {
       console.error("Error saving filters to localStorage:", error);
     }
   },[filters])
-  /* Ya no usaremos estos filtros ya que consumiremos de una API
-  const jobsFilteredByFilters = jobsData.filter(job =>{
-    return (
-      (filters.technology === '' || job.data.technology.toLowerCase() === filters.technology.toLowerCase()) &&
-      (filters.location === '' || job.data.modalidad.toLowerCase() === filters.location.toLowerCase()) &&
-      (filters.experienceLevel === '' || job.data.nivel.toLowerCase() === filters.experienceLevel.toLowerCase())
-    )
-  })
 
-  const jobsWithTextFilter = textFilter === '' ? jobsFilteredByFilters : jobsFilteredByFilters.filter(job =>{
-    return job.titulo.toLowerCase().includes(textFilter.toLowerCase())
-  })
-
-  const totalPages = Math.ceil(jobs.length / RESULTS_PER_PAGE)
-
-  const pagedResults = jobsWithTextFilter.slice(
-    (currentPage - 1) * RESULTS_PER_PAGE,
-    currentPage * RESULTS_PER_PAGE
-  )
-  */
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE)
   
   const hasActiveFilters = 
