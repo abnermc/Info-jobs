@@ -14,12 +14,16 @@ function App() {
   return (  
     <>
       <Header/>
+      <Suspense fallback={<div style={{maxWidth: '1280px', margin: '0 auto', padding: '0 1rem'}}>
+        Cargando...
+      </div>}>
       <Routes>
         <Route path="/" element={<HomePage />}/>
         <Route path="/search" element={<SearchPage/>}/>
         <Route path="/jobs/:jobId" element={<JobDetail/>}></Route>
         <Route path="*" element={<NotFoundPage/>}/>
       </Routes>
+      </Suspense>|
       <Footer/>
     </>
   )
