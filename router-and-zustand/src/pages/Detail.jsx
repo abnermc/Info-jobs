@@ -1,5 +1,6 @@
-import {useState, useEffect, use } from "react"   
+import {useState, useEffect } from "react"   
 import { useParams, useNavigate } from "react-router"
+import { Link } from "../components/Link"
 import snarkdown from 'snarkdown'
 import styles from './Detail.module.css'
 
@@ -10,8 +11,10 @@ function JobSection({title, content}){
             <h2 className={styles.sectionTitle}>
                 {title}
             </h2>
-            <div className={styles.sectionContent} prose>
-                {html}
+            <div 
+                className={`styles.sectionContent prose`} 
+                dangerouslySetInnerHTML={{__html:html}}
+            >
             </div>
         </section>
     )
@@ -21,11 +24,11 @@ export function JobDetail(){
 
     const navigate = useNavigate()
     const [job, setJob] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
     useEffect(() =>{
-        fetch(`https://jscamp-api.vercel.app/api/jobs?${jobId}`)
+        fetch(`https://jscamp-api.vercel.app/api/jobs/${jobId}`)
         .then(response => {
             if(!response.ok) throw new Error('Network response was not ok')
             return response.json()
@@ -42,12 +45,11 @@ export function JobDetail(){
     }, [jobId])
 
     if(loading){
-        return 
-        <div style={{maxWidth: '1280px', margin: '0 auto', padding: '0 1rem'}}>
-            <div className={styles.loading}>
-                <p className={styles.loadingText }>Cargando</p>
+        return <div style={{maxWidth: '1280px', margin: '0 auto', padding: '0 1rem'}}>
+                <div className={styles.loading}>
+                    <p className={styles.loadingText }>Cargando</p>
+                </div>
             </div>
-        </div>
     }
 
     if(error || !job){
@@ -77,7 +79,7 @@ export function JobDetail(){
                     >       
                     Empleos         
                     </Link>
-                    <span className={styles.breadcrumbSeparator}></span>
+                    <span className={styles.breadcrumbSeparator}>/</span>
                     <span className={styles.breadcrymbCurrent}>{job.titulo}</span>
                 </nav>
             </div>
@@ -90,9 +92,13 @@ export function JobDetail(){
                 </p>
             </header>
 
-            <button styles={styles.applyButton}>
+            <button className={styles.applyButton}>
                 Aplicar ahora
             </button>
+            <JobSection title="Descripción del puesto" content={job.content.description}/>
+            <JobSection title="Responsabilidades" content={job.content.responsibilities}/>
+            <JobSection title="Requisitos" content={job.content.requirements}/>
+            <JobSection title="Acerca de la empresa" content={job.content.about}/>
         </div>
     )
 }

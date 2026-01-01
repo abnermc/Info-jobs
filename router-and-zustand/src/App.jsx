@@ -4,7 +4,7 @@ import { Footer } from './components/Footer.jsx'
 import { HomePage } from './pages/Home.jsx'
 import { SearchPage } from './pages/Search.jsx'
 import {NotFoundPage} from './pages/404.jsx'
-import { JobDetail } from './pages/detail.jsx'
+import { JobDetail } from './pages/Detail.jsx'
 //import { Route } from './components/Route.jsx'
 
 const RESULTS_PER_PAGE = 5
