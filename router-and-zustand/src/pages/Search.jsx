@@ -2,7 +2,6 @@ import { SearchFormSection } from '../components/SearchFormSection.jsx'
 import { JobsListings } from '../components/JobsListings.jsx'
 import { Pagination } from '../components/Pagination.jsx'
 import { Spinner } from '../components/Spinner.jsx'
-import { useRouter } from '../hooks/useRouter.jsx'
 import { useSearchParams } from 'react-router'
 //import jobsData from '../data.json'
 import { useEffect, useState } from 'react'
@@ -69,13 +68,12 @@ const useFilters = () => {
   // Efecto para actualizar la URL del navegador cuando cambian los filtros, texto o página
   useEffect(()=>{
     setSearchParams((params)=>{
-      const params = new URLSearchParams()
-      if(textFilter) params.append('text', textFilter)
-      if(filters.technology) params.append('technology', filters.technology)
-      if(filters.location) params.append('type', filters.location)
-      if(filters.experienceLevel) params.append('level', filters.experienceLevel)
+      if(textFilter) params.set('text', textFilter)
+      if(filters.technology) params.set('technology', filters.technology)
+      if(filters.location) params.set('type', filters.location)
+      if(filters.experienceLevel) params.set('level', filters.experienceLevel)
 
-      if(currentPage > 1) params.append('page', currentPage)
+      if(currentPage > 1) params.set('page', currentPage)
 
       return params
     })
@@ -134,7 +132,7 @@ const useFilters = () => {
   }
 }
 
-export function SearchPage() {
+export default function SearchPage() {
   const {
     total,
     loading,

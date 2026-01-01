@@ -19,7 +19,7 @@ function JobSection({title, content}){
         </section>
     )
 }
-export function JobDetail(){
+export default function JobDetail(){
     const {jobId} = useParams() // Tiene que ser el mismo nombre que en la ruta
 
     const navigate = useNavigate()
