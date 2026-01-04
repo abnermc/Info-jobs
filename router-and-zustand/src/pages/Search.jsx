@@ -68,14 +68,16 @@ const useFilters = () => {
   // Efecto para actualizar la URL del navegador cuando cambian los filtros, texto o página
   useEffect(()=>{
     setSearchParams((params)=>{
-      if(textFilter) params.set('text', textFilter)
-      if(filters.technology) params.set('technology', filters.technology)
-      if(filters.location) params.set('type', filters.location)
-      if(filters.experienceLevel) params.set('level', filters.experienceLevel)
+      const newParams = new URLSearchParams() 
 
-      if(currentPage > 1) params.set('page', currentPage)
+      if(textFilter) newParams.set('text', textFilter)
+      if(filters.technology) newParams.set('technology', filters.technology)
+      if(filters.location) newParams.set('type', filters.location)
+      if(filters.experienceLevel) newParams.set('level', filters.experienceLevel)
 
-      return params
+      if(currentPage > 1) newParams.set('page', currentPage)
+
+      return newParams
     })
   },[filters, textFilter,currentPage, setSearchParams])
 
