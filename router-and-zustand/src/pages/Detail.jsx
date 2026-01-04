@@ -80,7 +80,7 @@ export default function JobDetail(){
                     Empleos         
                     </Link>
                     <span className={styles.breadcrumbSeparator}>/</span>
-                    <span className={styles.breadcrymbCurrent}>{job.titulo}</span>
+                    <span className={styles.breadcrumbCurrent}>{job.titulo}</span>
                 </nav>
             </div>
             <header className={styles.header}>
