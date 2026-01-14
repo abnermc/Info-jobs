@@ -1,10 +1,9 @@
 import { Link } from "./Link";
 import { NavLink } from "react-router";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 export function Header(){
-    const {isLoggedIn, login, logout} = useContext(AuthContext);    
+    const {isLoggedIn, login, logout} = useAuth();    
     return(
         <header>
         <Link href="/" style={{textDecoration: 'none', color: 'inherit'}}>
