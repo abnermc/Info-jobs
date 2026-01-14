@@ -1,9 +1,13 @@
 import { Link } from "./Link";
 import { NavLink } from "react-router";
-import { useAuth } from "../context/AuthContext";
-
+import { useAuthStore } from '../store/authStore'
+const HeaderUserButton = () => {
+    const {isLoggedIn, login, logout} = useAuthStore()
+    return isLoggedIn 
+            ? <button onClick={logout}>Cerrar sesión</button>
+            : <button onClick={login}>Iniciar sesión</button>
+}
 export function Header(){
-    const {isLoggedIn, login, logout} = useAuth();    
     return(
         <header>
         <Link href="/" style={{textDecoration: 'none', color: 'inherit'}}>
@@ -22,11 +26,7 @@ export function Header(){
         <NavLink to="/search" className={({isActive}) => isActive ? 'nav-link-active' : ''}>Empleos</NavLink>
         </nav>
 
-        {
-            isLoggedIn 
-            ? <button onClick={logout}>Cerrar sesión</button>
-            : <button onClick={login}>Iniciar sesión</button>
-        }
+        <HeaderUserButton/>
 
         <div>
         <devjobs-avatar service="google" username="google.com" size="32">
