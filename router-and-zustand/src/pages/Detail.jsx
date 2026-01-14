@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router"
 import { Link } from "../components/Link"
 import snarkdown from 'snarkdown'
 import styles from './Detail.module.css'
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext.jsx"    
 
 function JobSection({title, content}){
     const html = snarkdown(content)
@@ -17,6 +19,14 @@ function JobSection({title, content}){
             >
             </div>
         </section>
+    )
+}
+function DetailApplyButton(){
+    const {isLoggedIn} = useContext(AuthContext)
+    return (
+        <button disabled={!isLoggedIn} className={styles.applyButton}>
+            {isLoggedIn ? 'Aplicar ahora' : 'Inicia sesión para aplicar'}
+        </button>
     )
 }
 export default function JobDetail(){
@@ -91,10 +101,7 @@ export default function JobDetail(){
                     {job.empresa} - {job.ubicacion}
                 </p>
             </header>
-
-            <button className={styles.applyButton}>
-                Aplicar ahora
-            </button>
+            <DetailApplyButton/>
             <JobSection title="Descripción del puesto" content={job.content.description}/>
             <JobSection title="Responsabilidades" content={job.content.responsibilities}/>
             <JobSection title="Requisitos" content={job.content.requirements}/>
