@@ -1,5 +1,5 @@
 {
-  "name": "4-2-express",
+  "name": "4-express",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "abner medina",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
-    "Express": "^3.0.1"
+    "express": "^3.0.1"
   }
 }
