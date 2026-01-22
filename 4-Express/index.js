@@ -96,6 +96,3 @@ app.post('/jobs', (req,res)=>{
 app.delete('/jobs:id', (req, reqs)=>{
 
 })
-app.listen(PORT, () =>{
-    console.log(`Servidor levantado en http://localhost:${PORT}`)
-})
