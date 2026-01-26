@@ -1,14 +1,7 @@
-import { Router } from "express";
-import { JobController } from "../controllers/jobs";
+import { Router } from "express"
+import { JobController } from "../controllers/jobs.js"
 
-const jobsRouter = Router()
-
-jobsRouter.get('/health',(req, res)=>{
-    return res.json({
-        status: 'ok',
-        uptime: process.uptime()
-    })
-})
+export const jobsRouter = Router()
 
 jobsRouter.get('/', JobController.getAll)
 jobsRouter.get('/:id', JobController.getId)

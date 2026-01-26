@@ -13,10 +13,14 @@ export class JobModel{
 
         const limitNumber = Number(limit)
         const offsetNumber = Number(offset)
-
         const paginatedJobs = filteredJobs.slice(offsetNumber, offsetNumber+limitNumber)
 
-        return paginatedJobs
+        return {
+            jobs: paginatedJobs,
+            total: filteredJobs.length,
+            limit: limitNumber,
+            offset: offsetNumber
+        }
     }
 
     static async getById(id){
