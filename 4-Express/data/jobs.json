@@ -1,5 +1,6 @@
-[
 {
+  "data":[
+    {
     "id": "7a4d1d8b-1e45-4d8c-9f1a-8c2f9a9121a4",
     "titulo": "Desarrollador de Software Senior",
     "empresa": "Tech Solutions Inc.",
@@ -611,4 +612,4 @@
       "about": "DocuTech Solutions es una empresa especializada en documentación técnica que ayuda a empresas de tecnología a crear contenido de calidad. Ofrecemos trabajo remoto y oportunidades de desarrollar habilidades en escritura técnica y tecnologías modernas."
     }
   }
-]
+]}
