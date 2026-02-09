@@ -11,16 +11,18 @@ export class JobModel{
             )
         }
 
+        if (technology) {
+            filteredJobs = filteredJobs.filter(job =>
+                job.data.technology.includes(technology)
+            )
+        }
+        
         const limitNumber = Number(limit)
         const offsetNumber = Number(offset)
         const paginatedJobs = filteredJobs.slice(offsetNumber, offsetNumber+limitNumber)
+        
 
-        return {
-            jobs: paginatedJobs,
-            total: filteredJobs.length,
-            limit: limitNumber,
-            offset: offsetNumber
-        }
+        return paginatedJobs
     }
 
     static async getById(id){

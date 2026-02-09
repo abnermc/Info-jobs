@@ -30,4 +30,17 @@ describe('GET /jobs', () =>{
         const json = await response.json()
         assert.ok(Array.isArray(json.data), 'La respuesta debe ser un array')
     })
+
+    test('debe filtrar trabajos por tecnología', async()=>{
+        const tech = 'react'
+        const response = await fetch(`${BASE_URL}/jobs?technology=${tech}`)
+        assert.strictEqual(response.status, 200)
+
+        const json = await response.json()
+        console.log(json)
+        assert.ok(
+            json.data.every(job => job.data.technology.includes(tech)),
+            `Todos los trabajos deben incluir la tecnología ${tech}`
+        )
+    })
 })
