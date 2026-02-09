@@ -6,6 +6,12 @@ export class JobController{
         const {text, title, level, limit = DEFAULTS.LIMIT_PAGINATION, technology, offset = DEFAULTS.LIMIT_OFFSET} = req.query
 
         const paginatedJobs = await JobModel.getAll({text, title, level, limit, technology, offset})
+
+        // TEMPORAL - para debugging
+        console.log('Type:', typeof paginatedJobs)
+        console.log('Is array:', Array.isArray(paginatedJobs))
+        console.log('Keys:', Object.keys(paginatedJobs))
+        
         const limitNumber = Number(limit)
         const offsetNumber = Number(offset)
 
