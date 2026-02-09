@@ -1,4 +1,4 @@
-import jobs from '../jobs.json' with { type: 'json'}
+import jobs from '../data/jobs.json' with { type: 'json'}
 export class JobModel{
     static async getAll({text, title, level, limit = DEFAULTS.LIMIT_PAGINATION, technology, offset = DEFAULTS.LIMIT_OFFSET
     }){
